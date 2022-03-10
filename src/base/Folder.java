@@ -1,9 +1,11 @@
 package base;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
-public class Folder {
+public class Folder implements Comparable<Folder> {
 	private ArrayList<Note> notes;
 	private String name;
 	public Folder(String name) {
@@ -48,5 +50,45 @@ public class Folder {
 		Folder other = (Folder) obj;
 		return Objects.equals(name, other.name);
 	}
-	
+	public void sortNotes() {
+		Collections.sort(this.notes);
+	}
+	@Override
+	public int compareTo(Folder o) {
+		return o.name.compareTo(this.name);
+	}
+	private boolean isNoteContainsWord(Note note, String keyword) {
+		if(note.getTitle().toUpperCase().contains(keyword.toUpperCase())) {
+			return true;
+		} else if (note instanceof TextNote) {
+			TextNote _note = (TextNote) note;
+			if(_note.content.toUpperCase().contains(keyword.toUpperCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public List<Note> searchNotes(String keywords) {
+		String[] splitStr = keywords.split("\\s+");
+		ArrayList<Note> found = new ArrayList<Note>();
+		for(int i = 0; i < splitStr.length; i++) {
+			for(Note note : notes) {
+				if(i + 2 < splitStr.length && 
+						(splitStr[i+1].toUpperCase().equals("OR"))) {
+					if(isNoteContainsWord(note, splitStr[i]) 
+							|| isNoteContainsWord(note, splitStr[i+2])) {
+						if(!found.contains(note))
+							found.add(note);
+					}
+					i += 2;
+				} else {
+					if(isNoteContainsWord(note, splitStr[i])) {
+						if(!found.contains(note))
+							found.add(note);
+					}
+				}
+			}
+		}
+		return found;
+	}
 }
