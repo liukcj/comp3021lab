@@ -63,7 +63,7 @@ public class Folder implements Comparable<Folder> {
 
 	@Override
 	public int compareTo(Folder o) {
-		return o.name.compareTo(this.name);
+		return this.name.compareTo(o.name);
 	}
 
 	private boolean isNoteContainsWord(Note note, String keyword) {
