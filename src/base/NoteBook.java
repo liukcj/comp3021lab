@@ -1,14 +1,27 @@
 package base;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NoteBook {
+public class NoteBook implements Serializable {
 	private ArrayList<Folder> folders;
 	public NoteBook() {
-		folders = new ArrayList<Folder>();
+		folders = new ArrayList<>();
 	}
+	public NoteBook(String file){
+		try {
+			FileInputStream fileInputStream = new FileInputStream(file);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+			NoteBook readNoteBook = (NoteBook) objectInputStream.readObject();
+			this.folders = readNoteBook.folders;
+		}catch (Exception ex){
+			ex.printStackTrace();
+			assert false;
+		}
+	}
+	private final long serialVersionUID = 1L;
 	public boolean createTextNote(String folderName, String title) {
 		TextNote note = new TextNote(title);
 		return insertNote(folderName, note);
@@ -58,4 +71,24 @@ public class NoteBook {
 		}
 		return found;
 	}
+	/**
+	 * method to save the NoteBook instance to file
+	 *
+	 * @param file, the path of the file where to save the object serialization
+	 * @return true if save on file is successful, false otherwise
+	 */
+	public boolean save(String file) {
+		try{
+			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
+			outputStream.writeObject(this);
+			outputStream.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+
 }
