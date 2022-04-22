@@ -3,8 +3,6 @@ package base;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 public class TextNote extends Note implements Serializable {

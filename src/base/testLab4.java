@@ -1,8 +1,6 @@
 package base;
-import java.io.File;
 
-import base.NoteBook;
-import base.TextNote;
+import java.io.File;
 
 public class testLab4 {
     public static void main(String args[]) throws Exception{

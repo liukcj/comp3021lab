@@ -1,10 +1,6 @@
 package base;
-import java.util.ArrayList;
-import java.util.List;
 
-import base.Folder;
-import base.Note;
-import base.NoteBook;
+import java.util.List;
 
 public class testLab3 {
 	public static void main(String args[]){
